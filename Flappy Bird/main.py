@@ -1,23 +1,26 @@
 import pygame, sys, random 
 
+# Game exit flag
+GAME_EXIT = False
+
 def draw_floor():
-	screen.blit(floor_surface,(floor_x_pos,900))
-	screen.blit(floor_surface,(floor_x_pos + 576,900))
+	screen.blit(floor_surface,(floor_x_pos,660))
+	screen.blit(floor_surface,(floor_x_pos + 576,660))
 
 def create_pipe():
 	random_pipe_pos = random.choice(pipe_height)
-	bottom_pipe = pipe_surface.get_rect(midtop = (700,random_pipe_pos))
-	top_pipe = pipe_surface.get_rect(midbottom = (700,random_pipe_pos - 300))
+	bottom_pipe = pipe_surface.get_rect(midtop = (1400,random_pipe_pos))
+	top_pipe = pipe_surface.get_rect(midbottom = (1400,random_pipe_pos - 300))
 	return bottom_pipe,top_pipe
 
 def move_pipes(pipes):
 	for pipe in pipes:
-		pipe.centerx -= 5
+		pipe.centerx -= 3  # SLOWED DOWN for children
 	return pipes
 
 def draw_pipes(pipes):
 	for pipe in pipes:
-		if pipe.bottom >= 1024:
+		if pipe.bottom >= 720:
 			screen.blit(pipe_surface,pipe)
 		else:
 			flip_pipe = pygame.transform.flip(pipe_surface,False,True)
@@ -33,7 +36,7 @@ def check_collision(pipes):
 			death_sound.play()
 			return False
 
-	if bird_rect.top <= -100 or bird_rect.bottom >= 900:
+	if bird_rect.top <= -100 or bird_rect.bottom >= 660:
 		return False
 
 	return True
@@ -44,21 +47,21 @@ def rotate_bird(bird):
 
 def bird_animation():
 	new_bird = bird_frames[bird_index]
-	new_bird_rect = new_bird.get_rect(center = (100,bird_rect.centery))
+	new_bird_rect = new_bird.get_rect(center = (150,bird_rect.centery))
 	return new_bird,new_bird_rect
 
 def score_display(game_state):
 	if game_state == 'main_game':
 		score_surface = game_font.render(str(int(score)),True,(255,255,255))
-		score_rect = score_surface.get_rect(center = (288,100))
+		score_rect = score_surface.get_rect(center = (640,80))
 		screen.blit(score_surface,score_rect)
 	if game_state == 'game_over':
 		score_surface = game_font.render(f'Score: {int(score)}' ,True,(255,255,255))
-		score_rect = score_surface.get_rect(center = (288,100))
+		score_rect = score_surface.get_rect(center = (640,100))
 		screen.blit(score_surface,score_rect)
 
 		high_score_surface = game_font.render(f'High score: {int(high_score)}',True,(255,255,255))
-		high_score_rect = high_score_surface.get_rect(center = (288,850))
+		high_score_rect = high_score_surface.get_rect(center = (640,150))
 		screen.blit(high_score_surface,high_score_rect)
 
 def update_score(score, high_score):
@@ -68,48 +71,45 @@ def update_score(score, high_score):
 
 pygame.mixer.pre_init(frequency = 44100, size = 16, channels = 1, buffer = 512)
 pygame.init()
-screen = pygame.display.set_mode((576,1024))
+screen = pygame.display.set_mode((1280,720))  # WIDESCREEN
 clock = pygame.time.Clock()
-game_font = pygame.font.Font('04B_19.ttf',40)
+game_font = pygame.font.Font('04B_19.ttf',60)
 
 # Game Variables
-gravity = 0.25
+gravity = 0.15  # REDUCED gravity for smoothness
 bird_movement = 0
 game_active = True
 score = 0
 high_score = 0
 
 bg_surface = pygame.image.load('assets/background-day.png').convert()
-bg_surface = pygame.transform.scale2x(bg_surface)
+bg_surface = pygame.transform.scale(bg_surface, (1280, 720))  # WIDESCREEN scaling
 
 floor_surface = pygame.image.load('assets/base.png').convert()
-floor_surface = pygame.transform.scale2x(floor_surface)
+floor_surface = pygame.transform.scale(floor_surface, (1280, 60))  # Widescreen floor
 floor_x_pos = 0
 
-bird_downflap = pygame.transform.scale2x(pygame.image.load('assets/bluebird-downflap.png').convert_alpha())
-bird_midflap = pygame.transform.scale2x(pygame.image.load('assets/bluebird-midflap.png').convert_alpha())
-bird_upflap = pygame.transform.scale2x(pygame.image.load('assets/bluebird-upflap.png').convert_alpha())
+bird_downflap = pygame.transform.scale(pygame.image.load('assets/bluebird-downflap.png').convert_alpha(), (60, 60))
+bird_midflap = pygame.transform.scale(pygame.image.load('assets/bluebird-midflap.png').convert_alpha(), (60, 60))
+bird_upflap = pygame.transform.scale(pygame.image.load('assets/bluebird-upflap.png').convert_alpha(), (60, 60))
 bird_frames = [bird_downflap,bird_midflap,bird_upflap]
 bird_index = 0
 bird_surface = bird_frames[bird_index]
-bird_rect = bird_surface.get_rect(center = (100,512))
+bird_rect = bird_surface.get_rect(center = (150,360))
 
 BIRDFLAP = pygame.USEREVENT + 1
-pygame.time.set_timer(BIRDFLAP,200)
-
-# bird_surface = pygame.image.load('assets/bluebird-midflap.png').convert_alpha()
-# bird_surface = pygame.transform.scale2x(bird_surface)
-# bird_rect = bird_surface.get_rect(center = (100,512))
+pygame.time.set_timer(BIRDFLAP,150)  # Slower flapping animation
 
 pipe_surface = pygame.image.load('assets/pipe-green.png')
-pipe_surface = pygame.transform.scale2x(pipe_surface)
+pipe_surface = pygame.transform.scale(pipe_surface, (80, 500))  # Scaled for widescreen
 pipe_list = []
 SPAWNPIPE = pygame.USEREVENT
-pygame.time.set_timer(SPAWNPIPE,1200)
-pipe_height = [400,600,800]
+pygame.time.set_timer(SPAWNPIPE,2200)  # Slower pipe generation
+pipe_height = [150,250,350,450]
 
-game_over_surface = pygame.transform.scale2x(pygame.image.load('assets/message.png').convert_alpha())
-game_over_rect = game_over_surface.get_rect(center = (288,512))
+game_over_surface = pygame.image.load('assets/message.png').convert_alpha()
+game_over_surface = pygame.transform.scale(game_over_surface, (400, 200))
+game_over_rect = game_over_surface.get_rect(center = (640,360))
 
 flap_sound = pygame.mixer.Sound('sound/sfx_wing.wav')
 death_sound = pygame.mixer.Sound('sound/sfx_hit.wav')
@@ -122,14 +122,17 @@ while True:
 			pygame.quit()
 			sys.exit()
 		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_ESCAPE:
+				pygame.quit()
+				sys.exit()
 			if event.key == pygame.K_SPACE and game_active:
 				bird_movement = 0
-				bird_movement -= 12
+				bird_movement -= 8  # Reduced flap power
 				flap_sound.play()
 			if event.key == pygame.K_SPACE and game_active == False:
 				game_active = True
 				pipe_list.clear()
-				bird_rect.center = (100,512)
+				bird_rect.center = (150,360)
 				bird_movement = 0
 				score = 0
 
@@ -179,4 +182,4 @@ while True:
 	
 
 	pygame.display.update()
-	clock.tick(120)
+	clock.tick(60)  # 60 FPS for smooth gameplay
