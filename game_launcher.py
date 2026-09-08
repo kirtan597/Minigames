@@ -251,7 +251,7 @@ class GameLauncher:
         )
 
     def draw_footer(self):
-        footer_text = "Click to play • ESC to quit"
+        footer_text = "Click to play • L: Leaderboard • S: Settings • ESC to quit"
         footer_surf = self.font_small.render(footer_text, True, COLOR_TEXT_DARK)
         footer_rect = footer_surf.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 20))
         self.screen.blit(footer_surf, footer_rect)
@@ -268,6 +268,10 @@ class GameLauncher:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
+                    elif event.key == pygame.K_l:  # L for Leaderboard
+                        self.show_leaderboard()
+                    elif event.key == pygame.K_s:  # S for Settings
+                        self.show_settings()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         for card in self.cards:
@@ -329,3 +333,30 @@ def main():
 
 if __name__ == "__main__":
     main()
+    def show_leaderboard(self):
+        """Open leaderboard screen"""
+        try:
+            leaderboard_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "leaderboard_screen.py"
+            )
+            subprocess.Popen(
+                [sys.executable, leaderboard_path],
+                cwd=os.path.dirname(os.path.abspath(__file__))
+            ).wait()
+        except Exception as e:
+            print(f"Error opening leaderboard: {e}")
+
+    def show_settings(self):
+        """Open settings screen"""
+        try:
+            settings_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "settings_screen.py"
+            )
+            subprocess.Popen(
+                [sys.executable, settings_path],
+                cwd=os.path.dirname(os.path.abspath(__file__))
+            ).wait()
+        except Exception as e:
+            print(f"Error opening settings: {e}")
