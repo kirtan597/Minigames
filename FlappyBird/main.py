@@ -22,12 +22,12 @@ PIPE_COLOR = (76, 175, 80)
 BIRD_COLOR = (255, 200, 50)
 TEXT_COLOR = (255, 255, 255)
 
-# Game settings
-GRAVITY = 0.6
-JUMP_POWER = -12
+# Game settings - Optimized for playability
+GRAVITY = 0.5  # Slightly gentler gravity
+JUMP_POWER = -11  # Smoother jump
 PIPE_WIDTH = 80
-PIPE_GAP = 150
-PIPE_SPEED = -5
+PIPE_GAP = 160  # More generous gap for children
+PIPE_SPEED = -4  # Slower scrolling for better playability
 FRAME_RATE = 60
 
 class Bird:

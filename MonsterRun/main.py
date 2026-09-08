@@ -23,9 +23,9 @@ OBSTACLE_COLOR = (200, 100, 100)
 COIN_COLOR = (255, 255, 0)
 TEXT_COLOR = (255, 255, 255)
 
-# Physics
-GRAVITY = 0.6
-JUMP_POWER = -18
+# Physics - Optimized for smooth gameplay
+GRAVITY = 0.5  # Smoother jumps
+JUMP_POWER = -16  # Better jump control
 GROUND_Y = SCREEN_HEIGHT - 100
 
 # Frame rate

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#050814] text-slate-100 antialiased selection:bg-cyan-500 selection:text-white" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MINIGAMES CENTRAL - Play. Learn. Explore.</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['Outfit', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace']
+          },
+          colors: {
+            space: {
+              950: '#030712',
+              900: '#060B1E',
+              850: '#0A112C',
+              800: '#0F1A3F',
+              700: '#18275A'
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: CSS Stylesheets -->
+<style data-purpose="custom-animations">
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.45; filter: drop-shadow(0 0 12px currentColor); }
+      50% { opacity: 0.9; filter: drop-shadow(0 0 24px currentColor); }
+    }
+    @keyframes beamPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.95); }
+      50% { opacity: 0.8; transform: scaleY(1.05); }
+    }
+    @keyframes orbitShine {
+      0% { transform: translate(-30%, -30%) rotate(0deg); }
+      100% { transform: translate(-30%, -30%) rotate(360deg); }
+    }
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(1000%); }
+    }
+    .animate-float {
+      animation: floatSoft 3.8s ease-in-out infinite;
+    }
+    .animate-float-fast {
+      animation: floatSoft 2.3s ease-in-out infinite;
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+  </style>
+<style data-purpose="cyber-effects">
+    /* Subtle perspective grid */
+    .bg-cyber-grid {
+      background-size: 48px 48px;
+      background-image: 
+        linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+    }
+    
+    /* Card Glassmorphism and Hover lighting */
+    .arcade-card {
+      transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      isolation: isolate;
+    }
+    .arcade-card:hover {
+      transform: translateY(-8px);
+    }
+    .arcade-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 1.5rem;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent 40%, transparent 60%, rgba(255,255,255,0.06));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .arcade-card:hover::after {
+      opacity: 0;
+    }
+  </style>
+<!-- END: CSS Stylesheets -->
+</head>
+<body class="h-full bg-[#040816] font-outfit text-slate-100 flex flex-col justify-between overflow-x-hidden relative">
+<!-- Ambient Backdrop Lights -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"><div class="absolute -top-48 left-1/2 -translate-x-1/2 w-[1000px] h-[520px] bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.18)_0%,rgba(99,102,241,0.12)_45%,transparent_75%)] blur-[120px] rounded-full"></div>
+<div class="absolute top-1/4 -left-20 w-[550px] h-[450px] bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.12)_0%,transparent_70%)] blur-[140px] rounded-full"></div>
+<div class="absolute bottom-10 -right-20 w-[650px] h-[450px] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.1)_0%,transparent_70%)] blur-[140px] rounded-full"></div>
+<div class="absolute inset-0 bg-cyber-grid opacity-85"></div>
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#030611_98%)]"></div></div>
+<!-- BEGIN: MainHeader -->
+<header class="relative z-10 w-full pt-6 pb-2 px-6 sm:px-12 flex flex-col items-center select-none" data-purpose="dashboard-header"><div class="w-full max-w-7xl flex items-center justify-between text-xs font-mono text-slate-400 mb-3 px-2">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold tracking-wider shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+</span>
+      ONLINE CORE v2.4
+      <span class="text-slate-600">•</span>
+<span class="text-emerald-400 font-bold">14ms</span>
+</span>
+<span class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/60 border border-slate-700/40 text-slate-400 text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+      8 / 8 ENGINES LOADED
+    </span>
+</div>
+<div class="flex items-center gap-3 bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-700/50 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]"></span>
+<span class="text-[11px] font-semibold text-slate-300 tracking-wide font-mono hidden sm:inline">ARCADE MASTER</span>
+</div>
+<div class="h-3 w-[1px] bg-slate-700"></div>
+<div class="flex items-center gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-amber-400/90 hover:brightness-125 transition-transform cursor-pointer shadow-[0_0_6px_rgba(251,191,36,0.6)]"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-emerald-400/90 hover:brightness-125 transition-transform cursor-pointer shadow-[0_0_6px_rgba(52,211,153,0.6)]"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-rose-500/90 hover:brightness-125 transition-transform cursor-pointer shadow-[0_0_6px_rgba(244,63,94,0.6)]"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center text-center mt-1">
+<div class="flex items-center justify-center gap-3.5 mb-1.5">
+<div class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400/20 via-indigo-600/30 to-purple-600/20 border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.35)] backdrop-blur-md group cursor-pointer">
+<svg class="w-7 h-7 text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" fill="currentColor" fill-opacity="0.3" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<div class="absolute inset-0 rounded-2xl bg-cyan-400/25 filter blur-lg -z-10"></div>
+</div>
+<h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white drop-shadow-[0_4px_24px_rgba(34,211,238,0.3)] font-outfit">
+      MINIGAMES <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-sky-200 to-indigo-300 drop-shadow-[0_0_20px_rgba(56,189,248,0.5)]">CENTRAL</span>
+</h1>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-[11px] sm:text-xs tracking-[0.35em] font-semibold uppercase text-slate-400">
+      PLAY <span class="text-cyan-400 mx-1">♦</span> LEARN <span class="text-purple-400 mx-1">♦</span> EXPLORE
+    </span>
+</div>
+<div class="w-72 sm:w-96 h-[2px] mt-3.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_14px_rgba(34,211,238,0.9)]"></div>
+</div></header>
+<!-- END: MainHeader -->
+<!-- BEGIN: GameLauncherGrid -->
+<main class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 my-auto flex items-center justify-center">
+<!-- 8 Games Grid: 4 Columns x 2 Rows layout on desktop -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full" data-purpose="arcade-cards-container"><!-- ================= 1. FLAPPY BIRD ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(56,189,248,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-sky-500/25 via-sky-950/40 to-slate-950 border border-sky-500/25 flex items-center justify-center">
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.35),transparent_70%)]"></div>
+<!-- Skyline & Clouds -->
+<div class="absolute top-2.5 left-4 w-14 h-3.5 bg-white/25 rounded-full blur-[1px]"></div>
+<div class="absolute top-5 right-6 w-18 h-4 bg-white/20 rounded-full blur-[1px]"></div>
+<!-- Classic Neon Obstacle Pipes -->
+<div class="absolute -bottom-2 left-6 w-8 h-16 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-t-md border-t-2 border-x border-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] flex flex-col items-center pt-1">
+<div class="w-9 h-3 bg-emerald-500 rounded-sm border border-emerald-200/60 shadow-sm"></div>
+</div>
+<div class="absolute -top-2 right-8 w-8 h-14 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-b-md border-b-2 border-x border-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] flex flex-col items-center justify-end pb-1">
+<div class="w-9 h-3 bg-emerald-500 rounded-sm border border-emerald-200/60 shadow-sm"></div>
+</div>
+<!-- Animated Flappy Bird with Motion Trails -->
+<div class="relative z-10 animate-float flex flex-col items-center">
+<div class="relative w-11 h-9 rounded-full bg-gradient-to-tr from-amber-400 via-yellow-300 to-yellow-100 border border-amber-300 shadow-[0_0_16px_rgba(250,204,21,0.5)] flex items-center justify-center">
+<div class="absolute top-2 right-2.5 w-3 h-3 rounded-full bg-white flex items-center justify-center shadow-inner">
+<div class="w-1.5 h-1.5 rounded-full bg-slate-950"></div>
+</div>
+<div class="absolute top-3.5 -right-3 w-4 h-3 bg-gradient-to-r from-orange-400 to-rose-500 rounded-r-full border border-amber-600 shadow-sm"></div>
+<div class="absolute top-3.5 left-2 w-4.5 h-3 bg-white/80 rounded-full border border-amber-200/60 group-hover:rotate-12 transition-transform shadow-sm"></div>
+</div>
+<div class="w-6 h-1 bg-amber-400/30 blur-[2px] rounded-full mt-1"></div>
+</div>
+<!-- Score Tag & Micro Pill -->
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-sky-950/80 border border-sky-400/40 text-sky-300 tracking-wider shadow-sm">CLASSIC</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-amber-300">SCORE: 08</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-sky-300 transition-colors font-outfit">Flappy Bird</h2>
+<p class="text-xs text-slate-400 font-medium">Endless Flight</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-sky-500/20 to-blue-500/20 text-sky-300 border border-sky-400/40 group-hover:from-sky-400 group-hover:to-cyan-300 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(56,189,248,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 2. SNAKE ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(52,211,153,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-950 border border-emerald-500/25 flex items-center justify-center">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.2),transparent_70%)]"></div>
+<!-- Isometric Cyber Matrix Grid -->
+<div class="absolute inset-0" style="background-size: 14px 14px; background-image: linear-gradient(to right, rgba(16,185,129,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(16,185,129,0.12) 1px, transparent 1px);"></div>
+<!-- Snake Segments & Neon Food -->
+<div class="relative z-10 flex items-center">
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded-sm bg-emerald-700/60 border border-emerald-500/40"></span>
+<span class="w-4 h-4 rounded-sm bg-emerald-600/80 border border-emerald-400/50 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></span>
+<span class="w-4.5 h-4.5 rounded-sm bg-emerald-500 border border-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.8)]"></span>
+<!-- Head with Radar Eye -->
+<span class="w-5 h-5 rounded-md bg-gradient-to-br from-emerald-300 to-emerald-500 border-2 border-white shadow-[0_0_20px_rgba(52,211,153,1)] flex items-center justify-center relative">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-950"></span>
+<span class="absolute -top-1 -right-1 w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping"></span>
+</span>
+</div>
+<!-- Floating Pulsing Neon Orb -->
+<div class="ml-8 relative flex items-center justify-center">
+<div class="w-4 h-4 rounded-full bg-rose-500 animate-ping absolute opacity-60"></div>
+<div class="w-4 h-4 rounded-full bg-gradient-to-r from-rose-400 to-red-500 shadow-[0_0_18px_rgba(244,63,94,1)] border border-rose-200"></div>
+</div>
+</div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-950/80 border border-emerald-400/40 text-emerald-300 tracking-wider shadow-sm">RETRO</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-emerald-400">LEN: 14</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-emerald-300 transition-colors font-outfit">Snake</h2>
+<p class="text-xs text-slate-400 font-medium">Cyber Slither</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-400/40 group-hover:from-emerald-400 group-hover:to-teal-300 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(52,211,153,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 3. PONG ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(6,182,212,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-cyan-950/40 via-slate-900 to-slate-950 border border-cyan-500/25 flex items-center justify-center">
+<!-- Neon Synthwave Court -->
+<div class="absolute inset-y-2 left-1/2 -translate-x-1/2 w-0.5 border-r-2 border-dashed border-cyan-400/40"></div>
+<div class="absolute top-2 inset-x-0 flex justify-around text-[10px] font-mono font-bold text-cyan-300/60">
+<span>03</span>
+<span>05</span>
+</div>
+<!-- Left & Right Neon Paddles -->
+<div class="absolute left-4 w-2 h-14 bg-gradient-to-b from-cyan-300 via-cyan-400 to-blue-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.9)] group-hover:-translate-y-2 transition-transform duration-300"></div>
+<div class="absolute right-4 w-2 h-14 bg-gradient-to-b from-blue-500 via-cyan-400 to-cyan-300 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.9)] group-hover:translate-y-2 transition-transform duration-300"></div>
+<!-- High-Velocity Glowing Pong Ball -->
+<div class="relative z-10 flex items-center">
+<div class="w-10 h-1.5 bg-gradient-to-r from-transparent via-cyan-400/40 to-cyan-300 rounded-full blur-[1px]"></div>
+<div class="w-4 h-4 rounded-full bg-white shadow-[0_0_18px_rgba(255,255,255,1),0_0_28px_rgba(6,182,212,1)] animate-pulse-glow"></div>
+</div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 tracking-wider shadow-sm">ARCADE 1972</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-cyan-300 transition-colors font-outfit">Pong</h2>
+<p class="text-xs text-slate-400 font-medium">Twin Neon Paddle</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-cyan-500/20 to-sky-500/20 text-cyan-300 border border-cyan-400/40 group-hover:from-cyan-400 group-hover:to-sky-300 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(6,182,212,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 4. MONSTER RUN ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(245,158,11,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-amber-950/45 via-orange-950/25 to-slate-950 border border-amber-500/25 flex items-center justify-center">
+<!-- Volcanic Cave Glow & Embers -->
+<div class="absolute -bottom-4 inset-x-0 h-12 bg-gradient-to-t from-orange-600/70 via-red-600/30 to-transparent blur-md"></div>
+<div class="absolute bottom-2 inset-x-2 h-3.5 bg-slate-800/90 rounded border-t-2 border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]"></div>
+<div class="absolute bottom-7 right-6 w-16 h-2.5 bg-slate-800 rounded border-t-2 border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]"></div>
+<!-- Leaping Lava Monster Beast -->
+<div class="relative z-10 animate-float-fast flex flex-col items-center">
+<div class="relative w-12 h-10 flex items-center justify-center">
+<svg class="w-12 h-12 text-amber-400 drop-shadow-[0_0_16px_rgba(245,158,11,0.9)]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2C8.5 2 6 4.5 5 7c-2 0-3 2-3 4 0 3 2 5 4 5h12c2 0 4-2 4-5 0-2-1-4-3-4-1-2.5-3.5-5-7-7zm-3 8c.8 0 1.5.7 1.5 1.5S9.8 13 9 13s-1.5-.7-1.5-1.5S8.2 10 9 10zm6 0c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5zM7 16l2 4 3-2 3 2 2-4H7z"></path>
+</svg>
+<!-- Floating Fiery Sparks -->
+<div class="absolute -top-2 -right-3 w-2 h-2 rounded-full bg-amber-300 animate-ping"></div>
+<div class="absolute top-5 -left-3 w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></div>
+</div>
+</div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-amber-950/80 border border-amber-400/40 text-amber-300 tracking-wider shadow-sm">ACTION</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-amber-400">SPD: 1.5x</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-amber-300 transition-colors font-outfit">Monster Run</h2>
+<p class="text-xs text-slate-400 font-medium">Lava Runner</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-400/40 group-hover:from-amber-400 group-hover:to-orange-400 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(245,158,11,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 5. SPACE INVADERS ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(217,70,239,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-purple-950/50 via-slate-900 to-slate-950 border border-fuchsia-500/25 flex items-center justify-center">
+<!-- Starfield Speckles & Deep Nebula -->
+<div class="absolute top-3 left-6 w-1 h-1 bg-white/80 rounded-full shadow-[0_0_4px_#fff]"></div>
+<div class="absolute bottom-5 left-10 w-1.5 h-1.5 bg-fuchsia-300 rounded-full shadow-[0_0_6px_#e879f9]"></div>
+<div class="absolute top-6 right-8 w-1 h-1 bg-white/70 rounded-full"></div>
+<div class="absolute bottom-8 right-12 w-1.5 h-1.5 bg-cyan-300 rounded-full shadow-[0_0_4px_#22d3ee]"></div>
+<!-- Alien Motherfleet & Laser Pulses -->
+<div class="relative z-10 animate-float flex flex-col items-center">
+<div class="flex items-center gap-4 opacity-75 mb-1">
+<div class="w-3 h-2 bg-cyan-400 rounded-sm shadow-[0_0_6px_rgba(34,211,238,0.8)]"></div>
+<div class="w-3 h-2 bg-cyan-400 rounded-sm shadow-[0_0_6px_rgba(34,211,238,0.8)]"></div>
+</div>
+<svg class="w-16 h-12 text-fuchsia-400 group-hover:text-fuchsia-300 transition-colors drop-shadow-[0_0_14px_rgba(217,70,239,0.9)]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M4 6h2v2H4V6zm14 0h-2v2h2V6zM6 8h2v2H6V8zm12 0h-2v2h2V8zM4 10h16v4H4v-4zm2 4H4v4h2v-2h2v-2H6zm14 0h-2v2h2v2h2v-4h-2zm-8-6h4v2h-4V8zm-2 4h2v2H8v-2zm6 0h2v2h-2v-2z"></path>
+</svg>
+<div class="w-1 h-3.5 bg-fuchsia-400 rounded-full shadow-[0_0_10px_rgba(232,121,249,1)] mt-1 animate-pulse"></div>
+</div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-purple-950/80 border border-fuchsia-400/40 text-fuchsia-300 tracking-wider shadow-sm">GALAXY</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-fuchsia-400">WAVE 04</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-fuchsia-300 transition-colors font-outfit">Space Invaders</h2>
+<p class="text-xs text-slate-400 font-medium">Alien Defense</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-fuchsia-500/20 to-purple-500/20 text-fuchsia-300 border border-fuchsia-400/40 group-hover:from-fuchsia-400 group-hover:to-purple-400 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(217,70,239,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 6. TETRIS ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(59,130,246,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-blue-950/45 via-slate-900 to-slate-950 border border-blue-500/25 flex items-center justify-center">
+<div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(59,130,246,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.08)_1px,transparent_1px)] bg-[size:14px_14px]"></div>
+<!-- Beveled Glowing 3D Tetromino Ensemble -->
+<div class="relative z-10 animate-float flex flex-col items-center">
+<div class="relative w-24 h-16">
+<!-- T-Block (Violet/Indigo) -->
+<div class="absolute top-1 left-2 flex flex-col items-center">
+<div class="w-4 h-4 bg-indigo-500 border border-indigo-200/90 rounded-sm shadow-[0_0_10px_rgba(99,102,241,0.7)]"></div>
+<div class="flex">
+<div class="w-4 h-4 bg-indigo-500 border border-indigo-200/90 rounded-sm shadow-[0_0_10px_rgba(99,102,241,0.7)]"></div>
+<div class="w-4 h-4 bg-indigo-500 border border-indigo-200/90 rounded-sm shadow-[0_0_10px_rgba(99,102,241,0.7)]"></div>
+<div class="w-4 h-4 bg-indigo-500 border border-indigo-200/90 rounded-sm shadow-[0_0_10px_rgba(99,102,241,0.7)]"></div>
+</div>
+</div>
+<!-- Cyan L-Block Component -->
+<div class="absolute bottom-1 right-2 flex flex-col">
+<div class="w-4 h-4 bg-cyan-400 border border-cyan-100 rounded-sm shadow-[0_0_12px_rgba(34,211,238,0.9)]"></div>
+<div class="w-4 h-4 bg-cyan-400 border border-cyan-100 rounded-sm shadow-[0_0_12px_rgba(34,211,238,0.9)]"></div>
+</div>
+</div>
+</div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-blue-950/80 border border-blue-400/40 text-blue-300 tracking-wider shadow-sm">PUZZLE</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-blue-400">LINES: 24</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-blue-300 transition-colors font-outfit">Tetris</h2>
+<p class="text-xs text-slate-400 font-medium">Block Stacker</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 border border-blue-400/40 group-hover:from-blue-400 group-hover:to-indigo-400 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(59,130,246,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 7. 2048 PUZZLE ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(250,204,21,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-yellow-950/35 via-slate-900 to-slate-950 border border-yellow-500/25 flex items-center justify-center">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.2),transparent_70%)]"></div>
+<!-- Isometric Floating Gold Tiles -->
+<div class="relative z-10 flex items-center gap-3 group-hover:scale-105 transition-transform duration-300">
+<!-- 1024 Specular Tile -->
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-200 via-amber-400 to-yellow-600 p-[1.5px] shadow-lg shadow-amber-500/30">
+<div class="w-full h-full bg-slate-950/85 rounded-[10px] flex flex-col items-center justify-center border border-yellow-200/40">
+<span class="text-[11px] font-black text-amber-300 tracking-tighter">1024</span>
+</div>
+</div>
+<!-- 2048 Glowing Master Tile -->
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-100 via-amber-400 to-yellow-600 p-[2px] shadow-[0_0_24px_rgba(250,204,21,0.7)] animate-pulse-glow">
+<div class="w-full h-full bg-gradient-to-b from-yellow-400/40 to-amber-600/50 rounded-[13px] flex flex-col items-center justify-center backdrop-blur-sm border border-yellow-100/70">
+<span class="text-base font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] tracking-tight">2048</span>
+</div>
+</div>
+</div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-yellow-950/80 border border-yellow-400/40 text-yellow-300 tracking-wider shadow-sm">LOGIC</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-yellow-400">BEST: 2048</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-yellow-300 transition-colors font-outfit">2048 Puzzle</h2>
+<p class="text-xs text-slate-400 font-medium">Tile Synthesis</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-300 border border-yellow-400/40 group-hover:from-yellow-400 group-hover:to-amber-300 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(250,204,21,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article>
+<!-- ================= 8. BREAKOUT ================= -->
+<article class="arcade-card group bg-slate-900/70 backdrop-blur-xl rounded-2xl p-4 flex flex-col justify-between shadow-xl shadow-black/80 hover:shadow-[0_0_28px_rgba(244,63,94,0.25)] overflow-hidden cursor-pointer" data-purpose="game-card">
+<div class="relative h-36 rounded-xl overflow-hidden bg-gradient-to-b from-rose-950/35 via-slate-900 to-slate-950 border border-rose-500/25 flex flex-col items-center justify-between p-3.5">
+<!-- Multi-Tier Neon Brick Wall -->
+<div class="w-full space-y-1.5 pt-1">
+<div class="grid grid-cols-4 gap-1.5 w-full">
+<div class="h-2 rounded-sm bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.7)] border-t border-rose-300/60"></div>
+<div class="h-2 rounded-sm bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.7)] border-t border-rose-300/60"></div>
+<div class="h-2 rounded-sm bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.7)] border-t border-rose-300/60"></div>
+<div class="h-2 rounded-sm bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.7)] border-t border-rose-300/60"></div>
+</div>
+<div class="grid grid-cols-4 gap-1.5 w-full">
+<div class="h-2 rounded-sm bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.7)] border-t border-yellow-200/60"></div>
+<div class="h-2 rounded-sm bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.7)] border-t border-yellow-200/60"></div>
+<div class="h-2 rounded-sm bg-amber-400 opacity-20 border border-dashed border-amber-400/40"></div>
+<div class="h-2 rounded-sm bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.7)] border-t border-yellow-200/60"></div>
+</div>
+</div>
+<!-- High-Glow Bouncing Ball with Trail -->
+<div class="w-3.5 h-3.5 rounded-full bg-white shadow-[0_0_16px_rgba(255,255,255,1),0_0_24px_rgba(244,63,94,0.9)] animate-bounce self-center my-auto"></div>
+<!-- Responsive Neon Paddle -->
+<div class="w-18 h-2.5 bg-gradient-to-r from-rose-500 via-orange-400 to-rose-500 rounded-full shadow-[0_0_14px_rgba(244,63,94,0.9)] border-t border-white/60 group-hover:translate-x-3 transition-transform duration-300"></div>
+<span class="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md bg-rose-950/80 border border-rose-400/40 text-rose-300 tracking-wider shadow-sm">BREAKOUT</span>
+<span class="absolute top-2.5 right-2.5 text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-950/80 border border-slate-700/60 text-rose-400">x3 LIFE</span>
+</div>
+<div class="mt-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-white tracking-wide group-hover:text-rose-300 transition-colors font-outfit">Breakout</h2>
+<p class="text-xs text-slate-400 font-medium">Brick Demolition</p>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wide bg-gradient-to-r from-rose-500/20 to-red-500/20 text-rose-300 border border-rose-400/40 group-hover:from-rose-400 group-hover:to-red-400 group-hover:text-slate-950 group-hover:shadow-[0_0_18px_rgba(244,63,94,0.8)] transition-all">
+      PLAY <span>→</span>
+</button>
+</div>
+</article></div>
+</main>
+<!-- END: GameLauncherGrid -->
+<!-- BEGIN: BottomHUD -->
+<footer class="relative z-20 pb-6 pt-2 px-4 flex justify-center items-center" data-purpose="bottom-hud"><div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-6 py-2.5 rounded-2xl bg-slate-900/85 backdrop-blur-2xl border border-slate-700/60 shadow-[0_12px_40px_rgba(0,0,0,0.85)] text-xs font-mono text-slate-300">
+<!-- Action 1: Select / Play -->
+<div class="flex items-center gap-2 group cursor-pointer hover:text-cyan-300 transition-colors">
+<kbd class="px-2.5 py-1 text-[11px] font-bold text-cyan-300 bg-slate-800/90 rounded-md border border-cyan-500/40 shadow-[0_2px_0_rgba(6,182,212,0.4)] group-hover:border-cyan-400 group-hover:shadow-[0_0_10px_rgba(34,211,238,0.5)] transition-all">CLICK</kbd>
+<span class="tracking-wide font-medium">Select &amp; Play</span>
+</div>
+<span class="text-slate-600 hidden sm:inline">•</span>
+<!-- Action 2: Leaderboard -->
+<div class="flex items-center gap-2 group cursor-pointer hover:text-amber-300 transition-colors">
+<kbd class="px-2.5 py-1 text-[11px] font-bold text-amber-300 bg-slate-800/90 rounded-md border border-amber-500/40 shadow-[0_2px_0_rgba(245,158,11,0.4)] group-hover:border-amber-400 group-hover:shadow-[0_0_10px_rgba(245,158,11,0.5)] transition-all">L</kbd>
+<span class="tracking-wide font-medium">Leaderboard</span>
+</div>
+<span class="text-slate-600 hidden sm:inline">•</span>
+<!-- Action 3: Settings -->
+<div class="flex items-center gap-2 group cursor-pointer hover:text-emerald-300 transition-colors">
+<kbd class="px-2.5 py-1 text-[11px] font-bold text-emerald-300 bg-slate-800/90 rounded-md border border-emerald-500/40 shadow-[0_2px_0_rgba(16,185,129,0.4)] group-hover:border-emerald-400 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.5)] transition-all">S</kbd>
+<span class="tracking-wide font-medium">Settings</span>
+</div>
+<span class="text-slate-600 hidden sm:inline">•</span>
+<!-- Action 4: Quit -->
+<div class="flex items-center gap-2 group cursor-pointer hover:text-rose-400 transition-colors">
+<kbd class="px-2.5 py-1 text-[11px] font-bold text-rose-400 bg-slate-800/90 rounded-md border border-rose-500/40 shadow-[0_2px_0_rgba(244,63,94,0.4)] group-hover:border-rose-400 group-hover:shadow-[0_0_10px_rgba(244,63,94,0.5)] transition-all">ESC</kbd>
+<span class="tracking-wide font-medium">Quit</span>
+</div>
+</div></footer>
+<!-- END: BottomHUD -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="keyboard-navigation">
+    // Optional tactile keyboard shortcut feedback
+    document.addEventListener('keydown', (e) => {
+      const key = e.key.toUpperCase();
+      if (key === 'L') {
+        console.log('[MINIGAMES CENTRAL] Opening Leaderboards...');
+      } else if (key === 'S') {
+        console.log('[MINIGAMES CENTRAL] Opening Settings Menu...');
+      } else if (key === 'ESCAPE') {
+        console.log('[MINIGAMES CENTRAL] Exit sequence initiated.');
+      }
+    });
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>

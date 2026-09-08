@@ -28,8 +28,8 @@ FOOD_COLOR = (255, 100, 100)
 TEXT_COLOR = (255, 255, 255)
 GRID_COLOR = (30, 40, 80)
 
-# Frame rate
-FRAME_RATE = 10  # Control speed
+# Frame rate - Balanced for playability
+FRAME_RATE = 12  # Slightly faster for better responsiveness
 
 class Direction(Enum):
     UP = (0, -1)
