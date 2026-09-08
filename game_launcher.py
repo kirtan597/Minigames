@@ -291,11 +291,11 @@ class GameLauncher:
 
     def launch_game(self, game_name):
         game_paths = {
-            "Flappy Bird": "Flappy Bird\\main.py",
-            "Snake": "SnakeGame\\main.py",
-            "Pong": "Pong-Game\\main.py",
-            "Monster Run": "monster_run\\main.py",
-            "Space Invaders": "SpaceShip\\main.py",
+            "Flappy Bird": "FlappyBird\\main.py",
+            "Snake": "Snake\\main.py",
+            "Pong": "Pong\\main.py",
+            "Monster Run": "MonsterRun\\main.py",
+            "Space Invaders": "SpaceInvaders\\main.py",
             "Tetris": "Tetris\\main.py",
             "2048 Puzzle": "Game2048\\main.py",
             "Breakout": "Breakout\\main.py",
